@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${title} ?: 'Error'">Error</title>
+    <link rel="stylesheet" th:href="@{/css/movies.css}">
+    <style>
+        .error-container {
+            text-align: center;
+            padding: 2rem;
+            max-width: 600px;
+            margin: 2rem auto;
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            border-radius: 15px;
+            border: 2px solid #e94560;
+            box-shadow: 0 8px 32px rgba(233, 69, 96, 0.3);
+        }
+        .error-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+        .error-title {
+            color: #e94560;
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+        .error-message {
+            color: #f5f5f5;
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin-bottom: 2rem;
+        }
+        .back-btn {
+            display: inline-block;
+            padding: 12px 24px;
+            background: linear-gradient(135deg, #e94560, #f27121);
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+        .back-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(233, 69, 96, 0.4);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="error-container">
+            <div class="error-icon">🏴‍☠️</div>
+            <h1 class="error-title" th:text="${title} ?: 'Arrr! Something went wrong!'">Arrr! Something went wrong!</h1>
+            <p class="error-message" th:text="${message} ?: 'Shiver me timbers! We encountered an unexpected error on our voyage.'">
+                Shiver me timbers! We encountered an unexpected error on our voyage.
+            </p>
+            <a href="/movies" class="back-btn">⚓ Return to Treasure Collection</a>
+        </div>
+    </div>
+</body>
+</html>
