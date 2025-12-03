@@ -44,9 +44,7 @@ public class MoviesController {
             // Validate ID parameter if provided
             if (id != null && id <= 0) {
                 logger.warn("Blimey! Invalid treasure map ID provided: {}", id);
-                model.addAttribute("title", "Invalid Search Parameters");
-                model.addAttribute("message", "Arrr! That treasure map ID be invalid, matey! Please provide a valid ID greater than 0.");
-                return "error";
+                throw new InvalidSearchParametersException("Arrr! That treasure map ID be invalid, matey! Please provide a valid ID greater than 0.");
             }
             
             // Perform the treasure hunt!
@@ -75,12 +73,30 @@ public class MoviesController {
             
             return "movies";
             
-        } catch (Exception e) {
-            logger.error("Batten down the hatches! Error during treasure hunt: {}", e.getMessage());
-            model.addAttribute("title", "Search Error");
+        } catch (InvalidSearchParametersException e) {
+            logger.error("Invalid search parameters provided: {}", e.getMessage());
+            model.addAttribute("title", "Invalid Search Parameters");
+            model.addAttribute("message", e.getMessage());
+            return "error";
+        } catch (MovieServiceException e) {
+            logger.error("Movie service error during treasure hunt: {}", e.getMessage());
+            model.addAttribute("title", "Search Service Error");
             model.addAttribute("message", 
-                "Shiver me timbers! Something went wrong during the treasure hunt. " +
+                "Shiver me timbers! Our treasure hunting service encountered an error. " +
                 "Please try again, or the crew will have to investigate this scurvy bug!");
+            return "error";
+        } catch (IllegalArgumentException e) {
+            logger.error("Invalid argument provided for search: {}", e.getMessage());
+            model.addAttribute("title", "Invalid Search Input");
+            model.addAttribute("message", 
+                "Arrr! Invalid search input provided, matey! " + e.getMessage());
+            return "error";
+        } catch (RuntimeException e) {
+            logger.error("Unexpected runtime error during treasure hunt: {}", e.getMessage());
+            model.addAttribute("title", "Unexpected Search Error");
+            model.addAttribute("message", 
+                "Batten down the hatches! An unexpected error occurred during the treasure hunt. " +
+                "Please try again, or contact the crew if this problem persists!");
             return "error";
         }
     }
